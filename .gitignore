@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+
+# macOS-specific files
+.DS_Store
+
+# Debug logs
+npm-debug.log
+
+# Test results
+jest-results/
+playwright-report/
+test-results/
+
+# Ansible sensitive files
+ansible/.env
+ansible/docker.env
+ansible/ansible.cfg
+ansible/server-info.env
+
+# VS Code files
+.vscode/
+
+# Environment variables
+.env
+*.env
