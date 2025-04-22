@@ -4,7 +4,7 @@
   connection: local
   gather_facts: False
   vars_files:
-    - .env  
+    - vault.yml 
   
   tasks:
     - name: create VPC
@@ -126,7 +126,7 @@
   become: True
   gather_facts: False
   vars_files:
-    - docker.env
+    - vault.yml
   tasks:
     - name: Create app directory
       file:

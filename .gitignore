@@ -20,6 +20,7 @@ ansible/.env
 ansible/docker.env
 ansible/ansible.cfg
 ansible/server-info.env
+ansible/.vault_password
 
 # VS Code files
 .vscode/

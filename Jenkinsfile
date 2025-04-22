@@ -3,6 +3,11 @@ pipeline {
 
     environment {
         PATH = "/opt/homebrew/bin:$PATH"
+        DOCKER_ENV = credentials('docker.env')  
+        ENV_FILE = credentials('.env')
+        AWS_ACCESS_KEY_ID = credentials('Access-key-ID')
+        AWS_SECRET_ACCESS_KEY = credentials('Secret-access-key')
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
 
     tools {
@@ -98,6 +103,29 @@ pipeline {
                             docker buildx build --platform linux/amd64,linux/arm64 -t $IMAGE . --push
                         fi
                     '''
+                }
+            }
+        }
+
+        stage('Deploy with Ansible') {
+            steps {
+                withCredentials([string(credentialsId: 'ansible-vault-password', variable: 'VAULT_PASSWORD')]) {
+                    dir('ansible') {
+                        sh '''
+                            echo "$VAULT_PASSWORD" > .vault_password
+                            chmod 600 .vault_password
+                            ansible-playbook -i localhost, ansible.yaml --vault-password-file .vault_password
+                            
+                            # יצירת inventory אם צריך לשלב הבא
+                            if [ -f server-info.env ]; then
+                                source server-info.env
+                                echo "[app_servers]" > inventory.ini
+                                echo "${SERVER_IP} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/stav-devops-project-key.pem" >> inventory.ini
+                            fi
+                            
+                            rm -f .vault_password
+                        '''
+                    }
                 }
             }
         }
