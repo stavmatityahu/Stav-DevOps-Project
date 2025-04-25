@@ -195,6 +195,85 @@ nav ul li a:hover {
   font-size: 1.2rem;
 }
 
+/* קישורים לחברות וארגונים */
+.company-link, .organization-link {
+  display: inline-block;
+  color: #3498db;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.company-link:hover, .organization-link:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #2980b9;
+}
+
+.company-link i, .organization-link i {
+  margin-right: 5px;
+}
+
+/* מקטע התנדבות */
+.volunteer-item {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.volunteer-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.volunteer-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.organization-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+/* מקטע שפות */
+.languages-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.language-item {
+  text-align: center;
+  padding: 15px 30px;
+  background-color: #ecf0f1;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.language-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.language-item h3 {
+  margin: 0 0 5px 0;
+  color: #2c3e50;
+}
+
+.language-item p {
+  margin: 0;
+  color: #7f8c8d;
+}
+
 /* חברתי */
 .social-links {
   display: flex;
@@ -243,5 +322,15 @@ nav ul li a:hover {
   .profile-contact {
     flex-direction: column;
     align-items: center;
+  }
+  
+  .languages-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .volunteer-header {
+    flex-direction: column;
+    text-align: center;
   }
 }

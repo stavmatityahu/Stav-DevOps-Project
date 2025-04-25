@@ -9,39 +9,60 @@ jest.mock('../../src/assets/jenkins.png', () => 'jenkins.png');
 jest.mock('../../src/assets/ansible.png', () => 'ansible.png');
 jest.mock('../../src/assets/docker.png', () => 'docker.png');
 jest.mock('../../src/assets/kubernetes.png', () => 'kubernetes.png');
+jest.mock('../../src/assets/aws.png', () => 'aws.png');
+jest.mock('../../src/assets/git.png', () => 'git.png');
+jest.mock('../../src/assets/jira.png', () => 'jira.png');
+jest.mock('../../src/assets/python.png', () => 'python.png');
+jest.mock('../../src/assets/java.png', () => 'java.png');
+jest.mock('../../src/assets/js.png', () => 'js.png');
+jest.mock('../../src/assets/sql.png', () => 'sql.png');
+jest.mock('../../src/assets/linux.png', () => 'linux.png');
+jest.mock('../../src/assets/heroes.png', () => 'heroes.png');
+jest.mock('../../src/assets/idf.png', () => 'idf.png');
+jest.mock('../../src/assets/cybergym.png', () => 'cybergym.png');
 
 describe('App Component', () => {
   test('renders app header with correct title', () => {
     render(<App />);
-    const headerElement = screen.getByText('Stav Matityahu');
+    // Using role to get the specific header element
+    const headerElement = screen.getByRole('heading', { name: 'Stav Matityahu', level: 1 });
     expect(headerElement).toBeInTheDocument();
     
-    const subtitleElement = screen.getByText('DevOps & Software Engineer');
+    // Use a more specific selector for the subtitle
+    const subtitleElement = screen.getByRole('heading', { name: 'DevOps & Software Engineer', level: 2 });
     expect(subtitleElement).toBeInTheDocument();
   });
   
   test('renders navigation links', () => {
     render(<App />);
     
-    const aboutLink = screen.getByText('About');
+    // Test each navigation link individually using the most specific selectors
+    const navLinks = screen.getAllByRole('link');
+    
+    // Find specific links by their href attribute
+    const aboutLink = navLinks.find(link => link.getAttribute('href') === '#about');
     expect(aboutLink).toBeInTheDocument();
-    expect(aboutLink).toHaveAttribute('href', '#about');
+    expect(aboutLink).toHaveTextContent('About');
     
-    const skillsLink = screen.getByText('Skills');
+    const skillsLink = navLinks.find(link => link.getAttribute('href') === '#skills');
     expect(skillsLink).toBeInTheDocument();
-    expect(skillsLink).toHaveAttribute('href', '#skills');
+    expect(skillsLink).toHaveTextContent('Skills');
     
-    const experienceLink = screen.getByText('Experience');
+    const experienceLink = navLinks.find(link => link.getAttribute('href') === '#experience');
     expect(experienceLink).toBeInTheDocument();
-    expect(experienceLink).toHaveAttribute('href', '#experience');
+    expect(experienceLink).toHaveTextContent('Experience');
     
-    const educationLink = screen.getByText('Education');
+    const educationLink = navLinks.find(link => link.getAttribute('href') === '#education');
     expect(educationLink).toBeInTheDocument();
-    expect(educationLink).toHaveAttribute('href', '#education');
+    expect(educationLink).toHaveTextContent('Education');
     
-    const contactLink = screen.getByText('Contact');
-    expect(contactLink).toBeInTheDocument();
-    expect(contactLink).toHaveAttribute('href', '#contact');
+    const languagesLink = navLinks.find(link => link.getAttribute('href') === '#languages');
+    expect(languagesLink).toBeInTheDocument();
+    expect(languagesLink).toHaveTextContent('Languages');
+    
+    // Contact link should not exist
+    const contactLink = navLinks.find(link => link.getAttribute('href') === '#contact');
+    expect(contactLink).toBeUndefined();
   });
   
   test('renders footer with copyright', () => {
@@ -64,8 +85,12 @@ describe('Home Component', () => {
     const aboutSection = document.getElementById('about');
     expect(aboutSection).toBeInTheDocument();
     
-    const aboutTitle = screen.getByText('About Me');
+    const aboutTitle = screen.getByRole('heading', { name: 'About Me' });
     expect(aboutTitle).toBeInTheDocument();
+    
+    // Check for profile image
+    const profileImg = screen.getByAltText('Stav Matityahu');
+    expect(profileImg).toBeInTheDocument();
   });
   
   test('renders skills section with DevOps tools', () => {
@@ -74,27 +99,33 @@ describe('Home Component', () => {
     const skillsSection = document.getElementById('skills');
     expect(skillsSection).toBeInTheDocument();
     
-    const devOpsTitle = screen.getByText('DevOps Tools');
+    const devOpsTitle = screen.getByRole('heading', { name: 'DevOps Tools' });
     expect(devOpsTitle).toBeInTheDocument();
     
-    // Check for specific DevOps tools
-    expect(screen.getByText('Jenkins')).toBeInTheDocument();
-    expect(screen.getByText('Docker')).toBeInTheDocument();
-    expect(screen.getByText('Kubernetes')).toBeInTheDocument();
-    expect(screen.getByText('Ansible')).toBeInTheDocument();
-    expect(screen.getByText('AWS')).toBeInTheDocument();
+    // Check for specific DevOps tools within the skill cards
+    const skillCards = document.querySelectorAll('.skill-card');
+    const devOpsTools = Array.from(skillCards).map(card => card.textContent);
+    
+    expect(devOpsTools).toContain('Jenkins');
+    expect(devOpsTools).toContain('Docker');
+    expect(devOpsTools).toContain('Kubernetes');
+    expect(devOpsTools).toContain('Ansible');
+    expect(devOpsTools).toContain('AWS');
   });
   
   test('renders skills section with programming languages', () => {
     render(<Home />);
     
-    const programmingTitle = screen.getByText('Programming Languages');
+    const programmingTitle = screen.getByRole('heading', { name: 'Programming Languages' });
     expect(programmingTitle).toBeInTheDocument();
     
-    // Check for specific programming languages
-    expect(screen.getByText('Python')).toBeInTheDocument();
-    expect(screen.getByText('Java')).toBeInTheDocument();
-    expect(screen.getByText('SQL')).toBeInTheDocument();
+    // Check for specific programming languages within the skill cards
+    const skillCards = document.querySelectorAll('.skill-card');
+    const programmingLanguages = Array.from(skillCards).map(card => card.textContent);
+    
+    expect(programmingLanguages).toContain('Python');
+    expect(programmingLanguages).toContain('Java');
+    expect(programmingLanguages).toContain('SQL');
   });
   
   test('renders experience section', () => {
@@ -103,41 +134,72 @@ describe('Home Component', () => {
     const experienceSection = document.getElementById('experience');
     expect(experienceSection).toBeInTheDocument();
     
-    const experienceTitle = screen.getByText('Experience');
+    const experienceTitle = screen.getByRole('heading', { name: 'Experience', level: 2 });
     expect(experienceTitle).toBeInTheDocument();
     
-    expect(screen.getByText(/CybergymIEC/)).toBeInTheDocument();
-    expect(screen.getByText(/Military Service/)).toBeInTheDocument();
+    // Check for specific organization names
+    const cybergymText = screen.getByText(/CybergymIEC/);
+    expect(cybergymText).toBeInTheDocument();
+    
+    const idfText = screen.getByText(/Israel Defense Forces/);
+    expect(idfText).toBeInTheDocument();
   });
   
-  test('renders education section', () => {
+  test('renders education section with bachelor degree', () => {
     render(<Home />);
     
     const educationSection = document.getElementById('education');
     expect(educationSection).toBeInTheDocument();
     
-    const educationTitle = screen.getByText('Education & Projects');
+    const educationTitle = screen.getByRole('heading', { name: 'Education & Volunteer Work', level: 2 });
     expect(educationTitle).toBeInTheDocument();
     
-    expect(screen.getByText(/B.Sc in Computer Science/)).toBeInTheDocument();
+    // Check for bachelor degree text
+    const bscText = screen.getByText('B.Sc in Computer Science (2024)');
+    expect(bscText).toBeInTheDocument();
   });
   
-  test('renders contact section with links', () => {
+  test('renders volunteer section with Heroes for Life', () => {
+    render(<Home />);
+    
+    // Find the volunteer work heading
+    const volunteerTitle = screen.getByRole('heading', { name: 'Volunteer Work' });
+    expect(volunteerTitle).toBeInTheDocument();
+    
+    // Find the Heroes for Life link specifically
+    const heroesLinks = screen.getAllByRole('link');
+    const heroesLink = heroesLinks.find(link => link.getAttribute('href') === 'https://hfl.org.il/en/');
+    expect(heroesLink).toBeInTheDocument();
+    expect(heroesLink).toHaveTextContent('Heroes for Life');
+    
+    // Check the description text is present
+    const description = screen.getByText(/teaching math in Buenos Aires/);
+    expect(description).toBeInTheDocument();
+  });
+  
+  test('renders languages section', () => {
+    render(<Home />);
+    
+    const languagesSection = document.getElementById('languages');
+    expect(languagesSection).toBeInTheDocument();
+    
+    const hebrewHeading = screen.getByRole('heading', { name: 'Hebrew' });
+    expect(hebrewHeading).toBeInTheDocument();
+    
+    const englishHeading = screen.getByRole('heading', { name: 'English' });
+    expect(englishHeading).toBeInTheDocument();
+    
+    const nativeText = screen.getByText('Native');
+    expect(nativeText).toBeInTheDocument();
+    
+    const fluentText = screen.getByText('Fluent');
+    expect(fluentText).toBeInTheDocument();
+  });
+  
+  test('does not render contact section separately', () => {
     render(<Home />);
     
     const contactSection = document.getElementById('contact');
-    expect(contactSection).toBeInTheDocument();
-    
-    const contactTitle = screen.getByText('Contact Me');
-    expect(contactTitle).toBeInTheDocument();
-    
-    // Check for contact links
-    const linkedInLink = screen.getAllByText('LinkedIn')[0];
-    expect(linkedInLink).toBeInTheDocument();
-    expect(linkedInLink.closest('a')).toHaveAttribute('href', 'https://www.linkedin.com/in/stavmatityahu/');
-    
-    const githubLink = screen.getAllByText('GitHub')[0];
-    expect(githubLink).toBeInTheDocument();
-    expect(githubLink.closest('a')).toHaveAttribute('href', 'https://github.com/stavmatityhau');
+    expect(contactSection).not.toBeInTheDocument();
   });
 });

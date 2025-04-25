@@ -20,14 +20,22 @@ test.describe('React App E2E Tests', () => {
   });
 
   test('should have navigation links', async ({ page }) => {
-    // Check for navigation links
-    const aboutLink = page.locator('a[href="#about"]');
-    const skillsLink = page.locator('a[href="#skills"]');
-    const contactLink = page.locator('a[href="#contact"]');
+    // Check for navigation links using specific selectors
+    const aboutLink = page.locator('nav a[href="#about"]');
+    const skillsLink = page.locator('nav a[href="#skills"]');
+    const experienceLink = page.locator('nav a[href="#experience"]');
+    const educationLink = page.locator('nav a[href="#education"]');
+    const languagesLink = page.locator('nav a[href="#languages"]');
     
     await expect(aboutLink).toBeVisible();
     await expect(skillsLink).toBeVisible();
-    await expect(contactLink).toBeVisible();
+    await expect(experienceLink).toBeVisible();
+    await expect(educationLink).toBeVisible();
+    await expect(languagesLink).toBeVisible();
+    
+    // Contact link should not exist
+    const contactLink = page.locator('nav a[href="#contact"]');
+    await expect(contactLink).not.toBeVisible();
   });
 
   test('should show about section', async ({ page }) => {
@@ -36,7 +44,7 @@ test.describe('React App E2E Tests', () => {
     await expect(aboutSection).toBeVisible();
     
     // Check profile image is visible
-    const profileImage = page.locator('.profile-image');
+    const profileImage = page.locator('#about .profile-image');
     await expect(profileImage).toBeVisible();
   });
 
@@ -45,48 +53,62 @@ test.describe('React App E2E Tests', () => {
     const skillsSection = page.locator('#skills');
     await expect(skillsSection).toBeVisible();
     
-    // Check for specific DevOps skills
-    await expect(page.locator('text=Jenkins')).toBeVisible();
-    await expect(page.locator('text=Docker')).toBeVisible();
-    await expect(page.locator('text=Kubernetes')).toBeVisible();
+    // Check for specific DevOps skills using more specific selectors
+    await expect(page.locator('#skills .skill-cards:has-text("Jenkins")').first()).toBeVisible();
+    await expect(page.locator('#skills .skill-cards:has-text("Docker")').first()).toBeVisible();
+    await expect(page.locator('#skills .skill-cards:has-text("Kubernetes")').first()).toBeVisible();
     
     // Check for programming languages
-    await expect(page.locator('text=Python')).toBeVisible();
-    await expect(page.locator('text=Java')).toBeVisible();
-    await expect(page.locator('text=SQL')).toBeVisible();
+    await expect(page.locator('#skills .skill-cards:has-text("Python")').first()).toBeVisible();
+    await expect(page.locator('#skills .skill-cards:has-text("Java")').first()).toBeVisible();
+    await expect(page.locator('#skills .skill-cards:has-text("SQL")').first()).toBeVisible();
   });
 
-  test('should show experience section', async ({ page }) => {
+  test('should show experience section with logos', async ({ page }) => {
     // Check the experience section is visible
     const experienceSection = page.locator('#experience');
     await expect(experienceSection).toBeVisible();
     
-    // Check for specific experience content
-    await expect(page.locator('text=CybergymIEC')).toBeVisible();
-    await expect(page.locator('text=Military Service')).toBeVisible();
+    const experienceTitle = page.locator('#experience .section-title');
+    await expect(experienceTitle).toBeVisible();
+    await expect(experienceTitle).toHaveText('Experience');
+    
+    // Check for company logos and links
+    const cybergymLogo = page.locator('img[alt="CybergymIEC Logo"]');
+    await expect(cybergymLogo).toBeVisible();
+    
+    const idfLogo = page.locator('img[alt="IDF Logo"]');
+    await expect(idfLogo).toBeVisible();
+    
+    // Check for organization links
+    const cybergymLink = page.locator('#experience a[href="https://www.cybergymiec.com/"]');
+    await expect(cybergymLink).toBeVisible();
+    await expect(cybergymLink).toHaveText('CybergymIEC');
+    
+    const idfLink = page.locator('#experience a[href="https://www.idf.il/"]');
+    await expect(idfLink).toBeVisible();
+    await expect(idfLink).toHaveText('Israel Defense Forces (IDF)');
   });
 
-  test('should show education section', async ({ page }) => {
+  test('should show education with bachelor degree', async ({ page }) => {
     // Check the education section is visible
     const educationSection = page.locator('#education');
     await expect(educationSection).toBeVisible();
     
     // Check for education content
-    await expect(page.locator('text=B.Sc in Computer Science')).toBeVisible();
+    const bscText = page.locator('#education:has-text("B.Sc in Computer Science (2024)")');
+    await expect(bscText).toBeVisible();
   });
-
-  test('should have contact section with links', async ({ page }) => {
-    // Check the contact section is visible
-    const contactSection = page.locator('#contact');
-    await expect(contactSection).toBeVisible();
+  
+  test('should show Heroes for Life in volunteer section', async ({ page }) => {
+    // Check for Heroes for Life volunteer organization
+    const heroesHeading = page.locator('.resume-item-title:has-text("Heroes for Life")');
+    await expect(heroesHeading).toBeVisible();
     
-    // Check for LinkedIn link
-    const linkedinLink = page.locator('a:text("LinkedIn")');
-    await expect(linkedinLink).toBeVisible();
-    
-    // Check for GitHub link
-    const githubLink = page.locator('a:text("GitHub")');
-    await expect(githubLink).toBeVisible();
+    // Check for link to organization
+    const heroesLink = page.locator('#education a[href="https://hfl.org.il/en/"]');
+    await expect(heroesLink).toBeVisible();
+    await expect(heroesLink).toHaveText('Heroes for Life');
   });
 
   test('should have footer with copyright', async ({ page }) => {
