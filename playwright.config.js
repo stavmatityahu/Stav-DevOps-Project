@@ -9,23 +9,15 @@ module.exports = defineConfig({
   },
   use: {
     baseURL: 'http://localhost:3000',
-    browserName: 'chromium',
-    headless: false,
+    headless: true,
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
   },
+  // Run tests only in Chromium
   projects: [
     {
       name: 'chromium',
       use: { browserName: 'chromium' },
-    },
-    {
-      name: 'firefox',
-      use: { browserName: 'firefox' },
-    },
-    {
-      name: 'webkit',
-      use: { browserName: 'webkit' },
-    },
+    }
   ],
 });

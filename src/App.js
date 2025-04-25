@@ -1,29 +1,30 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Navigation from './components/Navigation';
 import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <Navigation />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <div className="App">
+      <header className="App-header">
+        <h1>Stav Matityahu</h1>
+        <h2>DevOps & Software Engineer</h2>
+      </header>
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <main>
+        <Home />
+      </main>
+      <footer className="App-footer">
+        <p>© {new Date().getFullYear()} Stav Matityahu | All Rights Reserved</p>
+      </footer>
+    </div>
   );
 }
 
