@@ -172,6 +172,7 @@
       docker_image:
         name: "{{ docker_user }}/stav-devops-project"
         source: pull
+        force_source: yes
 
     - name: Create docker-compose.yml
       copy:
