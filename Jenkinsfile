@@ -3,8 +3,6 @@ pipeline {
 
     environment {
         PATH = "/opt/homebrew/bin:$PATH"
-        DOCKER_ENV = credentials('docker.env')  
-        ENV_FILE = credentials('.env')
         AWS_ACCESS_KEY_ID = credentials('Access-key-ID')
         AWS_SECRET_ACCESS_KEY = credentials('Secret-access-key')
         ANSIBLE_HOST_KEY_CHECKING = 'False'
@@ -115,12 +113,6 @@ pipeline {
                             echo "$VAULT_PASSWORD" > .vault_password
                             chmod 600 .vault_password
                             ansible-playbook -i localhost, ansible.yaml --vault-password-file .vault_password
-                            
-                            if [ -f server-info.env ]; then
-                                source server-info.env
-                                echo "[app_servers]" > inventory.ini
-                                echo "${SERVER_IP} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/stav-devops-project-key.pem" >> inventory.ini
-                            fi
                             
                             rm -f .vault_password
                         '''
