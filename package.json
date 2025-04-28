@@ -5,8 +5,11 @@
     "test:e2e": "playwright test",
     "build": "react-scripts build",
     "serve": "serve -s build",
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage": "https://stavmatityahu.github.io/Stav-DevOps-Project",
   "babel": {
     "presets": [
       "@babel/preset-env",
@@ -17,6 +20,11 @@
         }
       ]
     ]
+  },
+  "resolutions": {
+    "nth-check": "^2.0.1",
+    "postcss": "^8.4.31",
+    "svgo/css-select/nth-check": "^2.0.1"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -51,13 +59,17 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.0.0",
     "babel-jest": "^27.5.1",
+    "css-select": "^4.1.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "jest-junit": "^16.0.0",
+    "nth-check": "^2.0.1",
+    "postcss": "^8.4.31",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "svgo": "^2.8.0"
   },
   "browserslist": {
     "production": [
@@ -73,6 +85,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "gh-pages": "^6.3.0",
     "react-scripts": "^5.0.1",
     "web-vitals": "^4.2.4"
   }

@@ -1,19 +1,20 @@
-// playwright.config.js
 const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests/e2e',
-  timeout: 30000,
+  timeout: 60000, 
   expect: {
-    timeout: 5000
+    timeout: 10000  
   },
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: 'https://stavmatityahu.github.io/Stav-DevOps-Project/',
     headless: true,
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
+    viewport: { width: 1280, height: 720 },
+    navigationTimeout: 30000,
   },
-  // Run tests only in Chromium
+
   projects: [
     {
       name: 'chromium',

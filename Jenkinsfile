@@ -116,7 +116,6 @@ pipeline {
                             chmod 600 .vault_password
                             ansible-playbook -i localhost, ansible.yaml --vault-password-file .vault_password
                             
-                            # יצירת inventory אם צריך לשלב הבא
                             if [ -f server-info.env ]; then
                                 source server-info.env
                                 echo "[app_servers]" > inventory.ini
