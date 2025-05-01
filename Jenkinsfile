@@ -110,11 +110,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'ansible-vault-password', variable: 'VAULT_PASSWORD')]) {
                     dir('ansible') {
                         sh '''
-                            echo "$VAULT_PASSWORD" > .vault_password
-                            chmod 600 .vault_password
-                            ansible-playbook -i localhost, ansible.yaml --vault-password-file .vault_password
+                            ansible-playbook -i localhost, ansible.yaml --vault-password-file=<(echo "$VAULT_PASSWORD")
                             
-                            rm -f .vault_password
                         '''
                     }
                 }
