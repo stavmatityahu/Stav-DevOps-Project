@@ -110,8 +110,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'ansible-vault-password', variable: 'VAULT_PASSWORD')]) {
                     dir('ansible') {
                         sh '''
-                            ansible-playbook -i localhost, ansible.yaml --vault-password-file=<(echo "$VAULT_PASSWORD")
-                            
+                            bash -c "ansible-playbook -i localhost, ansible.yaml --vault-password-file=<(echo \\"$VAULT_PASSWORD\\")"
                         '''
                     }
                 }
