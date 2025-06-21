@@ -12,6 +12,7 @@ pipeline {
         nodejs 'NodeJS'
     }
 
+    // this is a test...
     stages {
         stage('Prep docker images') {
             steps {
